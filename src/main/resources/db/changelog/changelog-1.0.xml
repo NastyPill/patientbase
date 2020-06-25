@@ -1,24 +1,132 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<databaseChangeLog
-        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
-        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
-                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
-    <changeSet id="1.0" author="valera">
-        <createTable tableName="patient">
-            <column></column>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+
+
+    <changeSet id="1.0.0" author="NastyPill">
+        <createTable tableName="PATIENT">
+            <column name="id" type="BIGSERIAL" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="surname" type="VARCHAR(100)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="name" type="VARCHAR(100)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="date_of_birth" type="TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+            <column name="description" type="VARCHAR(2000)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="photos" type="TEXT[]"/>
+            <column name="status" type="VARCHAR(25)" defaultValue="NOT_ACTIVE">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created" type="TIMESTAMP" defaultValueComputed="CURRENT_TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+            <column name="updated" type="TIMESTAMP" defaultValueComputed="CURRENT_TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
         </createTable>
     </changeSet>
 
-    <changeSet id="2.0" author="valera">
-        <createTable tableName="doctor">
-            <column></column>
+    <changeSet id="1.0.1" author="NastyPill">
+        <createTable tableName="DOCTOR">
+            <column name="ID" type="BIGSERIAL" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="name" type="VARCHAR(100)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="email" type="VARCHAR(200)">
+                <constraints nullable="false" unique="true"/>
+            </column>
+            <column name="password" type="VARCHAR(300)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="status" type="VARCHAR(25)" defaultValue="NOT_ACTIVE">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created" type="TIMESTAMP" defaultValueComputed="CURRENT_TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+            <column name="updated" type="TIMESTAMP" defaultValueComputed="CURRENT_TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
         </createTable>
     </changeSet>
 
-    <changeSet id="3.0" author="valera">
-        <createTable tableName="meeting">
-            <column></column>
+    <changeSet id="1.0.2" author="NastyPill">
+        <createTable tableName="MEETING">
+            <column name="id" type="BIGSERIAL" autoIncrement="true">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="date" type="TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+            <column name="description" type="TEXT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="photos" type="TEXT[]"/>
+            <column name="status" type="VARCHAR(25)" defaultValue="NOT_ACTIVE">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created" type="TIMESTAMP" defaultValueComputed="CURRENT_TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+            <column name="updated" type="TIMESTAMP" defaultValueComputed="CURRENT_TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
         </createTable>
     </changeSet>
+
+    <changeSet id="1.0.3" author="NastyPill">
+        <createTable tableName="DOCTOR_TO_PATIENT">
+            <column name="doctor_id" type="BIGSERIAL"/>
+            <column name="patient_id" type="BIGSERIAL"/>
+        </createTable>
+        <createTable tableName="DOCTOR_TO_MEETING">
+            <column name="doctor_id" type="BIGSERIAL"/>
+            <column name="meeting_id" type="BIGSERIAL"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="1.0.4" author="NastyPill">
+        <addForeignKeyConstraint baseTableName="DOCTOR_TO_PATIENT"
+                                 baseColumnNames="doctor_id"
+                                 constraintName="fk_doctor_patient_doctor"
+                                 referencedTableName="DOCTOR"
+                                 referencedColumnNames="id"
+                                 onDelete="CASCADE"
+                                 onUpdate="RESTRICT"/>
+        <addForeignKeyConstraint baseTableName="DOCTOR_TO_PATIENT"
+                                 baseColumnNames="patient_id"
+                                 constraintName="fk_doctor_patient_patient"
+                                 referencedTableName="PATIENT"
+                                 referencedColumnNames="id"
+                                 onDelete="CASCADE"
+                                 onUpdate="RESTRICT"/>
+    </changeSet>
+
+    <changeSet id="1.0.5" author="NastyPill">
+        <addForeignKeyConstraint baseTableName="DOCTOR_TO_MEETING"
+                                 baseColumnNames="doctor_id"
+                                 constraintName="fk_doctor_meeting_doctor"
+                                 referencedTableName="DOCTOR"
+                                 referencedColumnNames="id"
+                                 onDelete="CASCADE"
+                                 onUpdate="RESTRICT"/>
+        <addForeignKeyConstraint baseTableName="DOCTOR_TO_MEETING"
+                                 baseColumnNames="meeting_id"
+                                 constraintName="fk_doctor_meeting_meeting"
+                                 referencedTableName="MEETING"
+                                 referencedColumnNames="id"
+                                 onDelete="CASCADE"
+                                 onUpdate="RESTRICT"/>
+    </changeSet>
+
 </databaseChangeLog>
