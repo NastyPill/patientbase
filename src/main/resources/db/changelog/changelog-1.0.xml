@@ -18,6 +18,9 @@
             <column name="date_of_birth" type="TIMESTAMP">
                 <constraints nullable="false"/>
             </column>
+            <column name="address" type="VARCHAR(200)">
+                <constraints nullable="false"/>
+            </column>
             <column name="description" type="VARCHAR(2000)">
                 <constraints nullable="false"/>
             </column>
@@ -68,6 +71,9 @@
             <column name="date" type="TIMESTAMP">
                 <constraints nullable="false"/>
             </column>
+            <column name="organisation" type="VARCHAR(200)">
+                <constraints nullable="false"/>
+            </column>
             <column name="description" type="TEXT">
                 <constraints nullable="false"/>
             </column>
@@ -89,8 +95,8 @@
             <column name="doctor_id" type="BIGSERIAL"/>
             <column name="patient_id" type="BIGSERIAL"/>
         </createTable>
-        <createTable tableName="DOCTOR_TO_MEETING">
-            <column name="doctor_id" type="BIGSERIAL"/>
+        <createTable tableName="PATIENT_TO_MEETING">
+            <column name="patient_id" type="BIGSERIAL"/>
             <column name="meeting_id" type="BIGSERIAL"/>
         </createTable>
     </changeSet>
@@ -113,16 +119,16 @@
     </changeSet>
 
     <changeSet id="1.0.5" author="NastyPill">
-        <addForeignKeyConstraint baseTableName="DOCTOR_TO_MEETING"
-                                 baseColumnNames="doctor_id"
-                                 constraintName="fk_doctor_meeting_doctor"
-                                 referencedTableName="DOCTOR"
+        <addForeignKeyConstraint baseTableName="PATIENT_TO_MEETING"
+                                 baseColumnNames="patient_id"
+                                 constraintName="fk_patient_meeting_patient"
+                                 referencedTableName="PATIENT"
                                  referencedColumnNames="id"
                                  onDelete="CASCADE"
                                  onUpdate="RESTRICT"/>
-        <addForeignKeyConstraint baseTableName="DOCTOR_TO_MEETING"
+        <addForeignKeyConstraint baseTableName="PATIENT_TO_MEETING"
                                  baseColumnNames="meeting_id"
-                                 constraintName="fk_doctor_meeting_meeting"
+                                 constraintName="fk_patient_meeting_meeting"
                                  referencedTableName="MEETING"
                                  referencedColumnNames="id"
                                  onDelete="CASCADE"
