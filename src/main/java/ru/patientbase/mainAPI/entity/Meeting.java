@@ -1,7 +1,9 @@
 package ru.patientbase.mainAPI.entity;
 
+import com.vladmihalcea.hibernate.type.array.ListArrayType;
 import lombok.Data;
 import org.hibernate.annotations.Type;
+import org.hibernate.annotations.TypeDef;
 
 import javax.persistence.*;
 import java.sql.Date;
@@ -11,6 +13,10 @@ import java.util.Objects;
 @Entity
 @Data
 @Table(name = "MEETING")
+@TypeDef(
+        name = "list-array",
+        typeClass = ListArrayType.class
+)
 public class Meeting extends BaseEntity {
 
     @Column(name = "date")
@@ -31,10 +37,9 @@ public class Meeting extends BaseEntity {
 
     @ManyToOne
     @JoinTable(name = "patient_to_meeting",
-            joinColumns = {
-                    @JoinColumn(name = "patient_id", referencedColumnName = "id"),
-                    @JoinColumn(name = "meeting_id", referencedColumnName = "id")
-            })
+            joinColumns = {@JoinColumn(name = "patient_id", referencedColumnName = "id")},
+            inverseJoinColumns = {@JoinColumn(name = "meeting_id", referencedColumnName = "id")}
+    )
     private Patient patient;
 
     @Override

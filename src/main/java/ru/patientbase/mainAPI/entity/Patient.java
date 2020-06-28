@@ -1,8 +1,10 @@
 package ru.patientbase.mainAPI.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.vladmihalcea.hibernate.type.array.ListArrayType;
 import lombok.Data;
 import org.hibernate.annotations.Type;
+import org.hibernate.annotations.TypeDef;
 
 import javax.persistence.*;
 import java.sql.Date;
@@ -12,6 +14,10 @@ import java.util.Objects;
 @Entity
 @Data
 @Table(name = "PATIENT")
+@TypeDef(
+        name = "list-array",
+        typeClass = ListArrayType.class
+)
 public class Patient extends BaseEntity {
 
     @Column(name = "surname")
@@ -39,10 +45,9 @@ public class Patient extends BaseEntity {
     @JsonIgnore
     @ManyToOne
     @JoinTable(name = "doctor_to_patient",
-            joinColumns = {
-                    @JoinColumn(name = "doctor_id", referencedColumnName = "id"),
-                    @JoinColumn(name = "patient_id", referencedColumnName = "id")
-            })
+            joinColumns = {@JoinColumn(name = "doctor_id", referencedColumnName = "id")},
+            inverseJoinColumns = {@JoinColumn(name = "patient_id", referencedColumnName = "id")}
+    )
     private Doctor doctor;
 
     @OneToMany(mappedBy = "patient", fetch = FetchType.LAZY)
