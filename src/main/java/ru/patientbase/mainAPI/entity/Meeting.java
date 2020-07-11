@@ -37,8 +37,8 @@ public class Meeting extends BaseEntity {
 
     @ManyToOne
     @JoinTable(name = "patient_to_meeting",
-            joinColumns = {@JoinColumn(name = "patient_id", referencedColumnName = "id")},
-            inverseJoinColumns = {@JoinColumn(name = "meeting_id", referencedColumnName = "id")}
+            inverseJoinColumns = {@JoinColumn(name = "patient_id", referencedColumnName = "id")},
+            joinColumns = {@JoinColumn(name = "meeting_id", referencedColumnName = "id")}
     )
     private Patient patient;
 

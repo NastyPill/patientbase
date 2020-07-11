@@ -45,8 +45,8 @@ public class Patient extends BaseEntity {
     @JsonIgnore
     @ManyToOne
     @JoinTable(name = "doctor_to_patient",
-            joinColumns = {@JoinColumn(name = "doctor_id", referencedColumnName = "id")},
-            inverseJoinColumns = {@JoinColumn(name = "patient_id", referencedColumnName = "id")}
+            joinColumns = {@JoinColumn(name = "patient_id", referencedColumnName = "id")},
+            inverseJoinColumns = {@JoinColumn(name = "doctor_id", referencedColumnName = "id")}
     )
     private Doctor doctor;
 

@@ -26,7 +26,7 @@ public class DoctorRestController {
         return ResponseEntity.ok(DoctorDTO.translateToDto(doctor));
     }
 
-    @PutMapping("doctor/modify")
+    @PatchMapping("doctor/modify")
     public void modifyDoctor(@RequestBody DoctorDTO doctorDTO) {
         Doctor doctor = DoctorDTO.getDoctor(doctorDTO);
         doctorService.modifyDoctor(doctor);

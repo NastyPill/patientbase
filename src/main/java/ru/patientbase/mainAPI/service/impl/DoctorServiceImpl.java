@@ -7,7 +7,9 @@ import ru.patientbase.mainAPI.entity.Doctor;
 import ru.patientbase.mainAPI.repository.DoctorRepository;
 import ru.patientbase.mainAPI.service.DoctorService;
 
+import javax.transaction.Transactional;
 import java.util.NoSuchElementException;
+import java.util.Optional;
 
 @Service
 @Slf4j
@@ -18,23 +20,32 @@ public class DoctorServiceImpl implements DoctorService {
 
     @Override
     public Doctor getDoctorById(Long id) throws NoSuchElementException {
-        return doctorRepository
-                .findById(id)
-                .orElseThrow(NoSuchElementException::new);
+        Optional<Doctor> doctor = doctorRepository.findById(id);
+        if (doctor.isPresent()) {
+            return doctor.get();
+        } else {
+            throw new NoSuchElementException("Such doctor wasn't found");
+        }
     }
 
     @Override
     public Doctor getDoctorByEmail(String email) throws NoSuchElementException {
-        return doctorRepository
-                .findByEmail(email)
-                .orElseThrow(NoSuchElementException::new);
+        Optional<Doctor> doctor = doctorRepository.findByEmail(email);
+        if (doctor.isPresent()) {
+            return doctor.get();
+        } else {
+            throw new NoSuchElementException("Such doctor wasn't found");
+        }
     }
 
     @Override
+    @Transactional
     public void modifyDoctor(Doctor doctor) throws NoSuchElementException {
-        doctorRepository
-                .findById(doctor.getId())
-                .orElseThrow(NoSuchElementException::new);
-        doctorRepository.save(doctor);
+        Optional<Doctor> doc = doctorRepository.findById(doctor.getId());
+        if (doc.isPresent()) {
+            doctorRepository.modify(doctor.getName(), doctor.getEmail(), doctor.getId());
+        } else {
+            throw new NoSuchElementException("Such doctor wasn't found");
+        }
     }
 }
