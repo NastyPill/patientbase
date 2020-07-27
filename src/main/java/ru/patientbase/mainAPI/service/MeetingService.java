@@ -4,7 +4,7 @@ import ru.patientbase.mainAPI.entity.Meeting;
 
 public interface MeetingService {
 
-    void add(Long patientId, Meeting meeting);
+    Meeting add(Long patientId, Meeting meeting);
 
     void delete(Long id);
 

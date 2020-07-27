@@ -14,17 +14,17 @@ public class RestControllerAdvice {
 
     @ExceptionHandler({NoSuchElementException.class})
     public ResponseEntity<String> handleNoSuchElementException(NoSuchElementException ex) {
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("\"" + ex.getMessage() + "\"");
     }
 
     @ExceptionHandler({IllegalArgumentException.class})
     public ResponseEntity<String> handleIllegalArgumentException(IllegalArgumentException ex) {
-        return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body(ex.getMessage());
+        return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body("\"" + ex.getMessage() + "\"");
     }
 
     @ExceptionHandler({IllegalAccessException.class})
     public ResponseEntity<String> handleIllegalAccessException(IllegalAccessException ex) {
-        return ResponseEntity.status(HttpStatus.FORBIDDEN).body(ex.getMessage());
+        return ResponseEntity.status(HttpStatus.FORBIDDEN).body("\"" + ex.getMessage() + "\"");
     }
 
 }

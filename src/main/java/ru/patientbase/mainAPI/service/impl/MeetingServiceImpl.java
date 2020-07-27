@@ -9,6 +9,7 @@ import ru.patientbase.mainAPI.repository.MeetingRepository;
 import ru.patientbase.mainAPI.repository.PatientRepository;
 import ru.patientbase.mainAPI.service.MeetingService;
 
+import java.sql.Date;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 
@@ -26,15 +27,20 @@ public class MeetingServiceImpl implements MeetingService {
     }
 
     @Override
-    public void add(Long patientId, Meeting meeting) {
+    public Meeting add(Long patientId, Meeting meeting) {
         Optional<Patient> optionalPatient = patientRepository.findById(patientId);
         if (!optionalPatient.isPresent()) {
             throw new NoSuchElementException("There is no patient with id: " + patientId);
         }
+        meeting.setCreated(new Date(System.currentTimeMillis()));
+        meeting.setUpdated(new Date(System.currentTimeMillis()));
         Patient patient = optionalPatient.get();
+        meeting.setPatient(patient);
         Meeting saved = meetingRepository.save(meeting);
         patient.getMeetingList().add(saved);
+        System.out.println(patient.getMeetingList());
         patientRepository.save(patient);
+        return saved;
     }
 
     @Override

@@ -51,8 +51,8 @@ public class PatientRestController {
             patient.setStatus(Status.ACTIVE);
             patient.setCreated(new Date(System.currentTimeMillis()));
             patient.setUpdated(new Date(System.currentTimeMillis()));
-            patientService.addPatient(patient);
-            return ResponseEntity.ok(PatientDTO.translateToDto(patient));
+            Patient saved = patientService.addPatient(patient);
+            return ResponseEntity.ok(PatientDTO.translateToDto(saved));
         } else {
             throw new NoSuchElementException("Doctor with id: " + doctorId + " wasn't found");
         }

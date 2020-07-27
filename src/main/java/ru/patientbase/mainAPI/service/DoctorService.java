@@ -12,4 +12,6 @@ public interface DoctorService {
 
     void modifyDoctor(Doctor doctor) throws NoSuchElementException;
 
+    void register(Doctor doctor);
+
 }

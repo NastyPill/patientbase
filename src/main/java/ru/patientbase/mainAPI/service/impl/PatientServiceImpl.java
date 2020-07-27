@@ -28,7 +28,7 @@ public class PatientServiceImpl implements PatientService {
     }
 
     @Override
-    public void addPatient(Patient patient) {
+    public Patient addPatient(Patient patient) {
         if (!doctorRepository.findById(patient.getDoctor().getId()).isPresent()) {
             throw new NoSuchElementException("Doctor wasn't found");
         }
@@ -37,7 +37,7 @@ public class PatientServiceImpl implements PatientService {
                 patient.getDateOfBirth() == null) {
             throw new IllegalArgumentException("Some fields are null!");
         }
-        patientRepository.save(patient);
+        return patientRepository.save(patient);
     }
 
     @Override
